@@ -22,19 +22,45 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ImageGallery extends StatelessWidget {
+class ImageGallery extends StatefulWidget {
+  const ImageGallery({super.key});
+
+  @override
+  State<ImageGallery> createState() => _ImageGalleryState();
+}
+
+class _ImageGalleryState extends State<ImageGallery> {
   final List<String> images = [
     'assets/images/image1.jpg',
     'assets/images/image2.jpg',
     'assets/images/image3.png',
   ];
 
-  ImageGallery({super.key});
+  void _addImage() {
+    setState(() {
+      images.add("assets/images/image1.jpg");
+    });
+  }
+
+  void _deleteImage(int index) {
+    setState(() {
+      if (index >= 0 && index < images.length) {
+        images.removeAt(index);
+      } else {
+        debugPrint('⚠️ Índice inválido ao tentar remover: $index');
+      }
+    });
+  }
 
   @override
   Widget build(Object context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Titulo da minha pagina")),
+      appBar: AppBar(
+        title: Text("Titulo da minha pagina"),
+        actions: [
+          IconButton(onPressed: _addImage, icon: Icon(Icons.add_box, size: 36)),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -46,6 +72,7 @@ class ImageGallery extends StatelessWidget {
                 crossAxisCount: 2, // Número de colunas
               ),
               itemBuilder: (context, index) {
+                if (index >= images.length) return const SizedBox.shrink();
                 return GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(
@@ -53,6 +80,9 @@ class ImageGallery extends StatelessWidget {
                       Routes.imageView,
                       arguments: images[index],
                     );
+                  },
+                  onLongPress: () {
+                    _deleteImage(index);
                   },
                   child: Card(child: Image.asset(images[index])),
                 );
