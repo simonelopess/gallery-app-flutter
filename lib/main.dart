@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_gallery/image_view.dart';
+import 'package:image_gallery/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,8 +15,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: '/',
       routes: {
-        '/': (context) => ImageGallery(),
-        '/image-view': (context) => ImageView(),
+        Routes.home: (context) => ImageGallery(),
+        Routes.imageView: (context) => ImageView(),
       },
     );
   }
@@ -49,7 +50,7 @@ class ImageGallery extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      '/image-view',
+                      Routes.imageView,
                       arguments: images[index],
                     );
                   },

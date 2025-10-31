@@ -9,7 +9,21 @@ class ImageView extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(title: Text('View Image')),
-      body: Center(child: Image.asset(imagePath)),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(imagePath),
+          Container(
+            margin: const EdgeInsets.only(top: 20.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Voltar'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
